@@ -1,12 +1,10 @@
 package server;
 
 
-import src.ApartmentBlock;
-import src.Home;
-import src.Statistics;
-
 import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("rest")
@@ -17,9 +15,13 @@ public class HomesService {
     @Consumes({"application/json", "application/xml"})
     @Produces({"application/json", "application/xml"})
     public Response addHome(Home home){
-        List<Home> h = ApartmentBlock.getInstance().addHome(home);
-        if (h != null)
-            return Response.ok(h).build();
+
+        List<Home> homeList = ApartmentBlock.getInstance().addHome(home);
+        if (homeList != null) {
+            GenericEntity< List<Home> > entity;
+            entity  = new GenericEntity< List<Home>>(homeList){};
+            return Response.ok(entity).build();
+        }
         else
             return Response.status(Response.Status.PRECONDITION_FAILED).build();
     }

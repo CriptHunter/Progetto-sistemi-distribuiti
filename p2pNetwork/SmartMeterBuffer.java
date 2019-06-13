@@ -1,4 +1,4 @@
-package src;
+package p2pNetwork;
 
 import simulationSrc.Buffer;
 import simulationSrc.Measurement;

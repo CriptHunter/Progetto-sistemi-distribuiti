@@ -13,12 +13,12 @@ public class StartServer {
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServerFactory.create("http://" + HOST + ":" + PORT + "/");
         server.start();
-        System.out.println("Server running!");
-        System.out.println("Server started on: http://" + HOST + ":" + PORT);
-        System.out.println("Hit return to stop...");
+        System.out.println("Server attivo!");
+        System.out.println("Server attivo all'indirizzo: http://" + HOST + ":" + PORT);
+        System.out.println("Premi invio per terminare");
         System.in.read();
-        System.out.println("Stopping server");
+        System.out.println("Arresto in corso...");
         server.stop(0);
-        System.out.println("Server stopped");
+        System.out.println("Server spento!");
     }
 }
