@@ -29,7 +29,7 @@ public class HomesService {
     //rimuove una casa data una casa
     @Path("home/remove/{id}")
     @POST
-    @Consumes({"application/json", "application/xml"})
+    //@Consumes({"application/json", "application/xml"})
     public Response removeHome(@PathParam("id") int id){
         ApartmentBlock.getInstance().removeHome(id);
         return Response.ok().build();

@@ -40,4 +40,15 @@ public class Home {
     public void setPort(int port) {
         this.port = port;
     }
+
+
+    @Override
+    public boolean equals(Object o)
+    {
+        Home other = (Home)o;
+        boolean b =  this.id == other.id &&
+                this.port == other.port &&
+                this.ip.equals(other.ip);
+        return b;
+    }
 }

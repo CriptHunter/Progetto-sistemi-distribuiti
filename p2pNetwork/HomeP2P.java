@@ -12,6 +12,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import server.Home;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,7 +23,11 @@ public class HomeP2P {
     private Client client;
     private String serverURL;
     private List<Home> homesList;
+    //lista delle case che hanno dato l'ack per far uscire questa casa dalla rete
+    private List<Home> homesListExitAck;
     private static HomeP2P instance = null;
+    private Home thisHome;
+    private Status status;
 
     private HomeP2P() {
     }
@@ -34,6 +39,7 @@ public class HomeP2P {
         this.ip = ip;
         this.port = port;
         this.serverURL = serverURL;
+        homesListExitAck = new ArrayList<>();
         SetupServerConnection();
     }
 
@@ -55,7 +61,7 @@ public class HomeP2P {
     //riempe la lista di case
     public boolean SignOnServer()
     {
-        Home thisHome = new Home();
+        thisHome = new Home();
         thisHome.setId(this.id);
         thisHome.setIp(this.ip);
         thisHome.setPort(this.port);
@@ -76,9 +82,33 @@ public class HomeP2P {
             return false;
         }
 
+        status = Status.WORKING;
         //rimuove se stessa dalla lista di case
         removeHome(thisHome);
         return true;
+    }
+
+    public boolean SignOutFromServer()
+    {
+        WebResource webResource = client.resource(serverURL + "home/remove/" + thisHome.getId());
+        ClientResponse response = webResource.post(ClientResponse.class);
+        if(response.getStatus() == Response.Status.OK.getStatusCode())
+            return true;
+        else
+            return false;
+    }
+
+    public Home getThisHome() {
+        return thisHome;
+    }
+
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(Status s)
+    {
+        this.status = s;
     }
 
     public synchronized boolean addHome(Home h) {
@@ -98,11 +128,34 @@ public class HomeP2P {
         return homesList;
     }
 
+    public synchronized List<Home> getHomesListExitAck()
+    {
+        return homesListExitAck;
+    }
+
+    //controlla se due liste contengono gli stessi elementi
+    public boolean sameElements(List firstList, List secondList)
+    {
+        if (firstList.size() != secondList.size())
+            return false;
+        for (int index = 0; index < firstList.size(); index++)
+        {
+            if (!secondList.contains(firstList.get(index)))
+                return false;
+        }
+        return true;
+    }
+
     public void broadCastMessage(Message m) throws IOException {
         List<Home> homesList = getHomesList();
         for(Home h : homesList) {
             HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
             client.start();
         }
+    }
+
+    public void unicastMessage(Message m, Home h) throws IOException {
+        HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
+        client.start();
     }
 }
