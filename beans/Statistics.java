@@ -1,4 +1,4 @@
-package server;
+package beans;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -10,6 +10,13 @@ public class Statistics {
 
     public Statistics() {
 
+    }
+
+    public Statistics(int homeId, double value, long timestamp)
+    {
+        this.homeId = homeId;
+        this.value = value;
+        this.timestamp = timestamp;
     }
 
     public int getHomeId() {

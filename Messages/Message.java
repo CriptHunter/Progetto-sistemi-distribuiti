@@ -2,10 +2,10 @@ package Messages;
 
 public class Message<C> {
     private Header header;
-    private int timestamp;
+    private long timestamp;
     private C content;
 
-    public Message(Header header, int timestamp, C content) {
+    public Message(Header header, long timestamp, C content) {
         this.header = header;
         this.timestamp = timestamp;
         this.content = content;
@@ -19,11 +19,11 @@ public class Message<C> {
         this.header = header;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

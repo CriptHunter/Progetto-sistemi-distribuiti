@@ -1,7 +1,7 @@
 package p2pNetwork;
 
-import Messages.Header;
 import Messages.Message;
+import beans.Statistics;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
@@ -9,10 +9,13 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
-import server.Home;
+import beans.Home;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,14 +25,19 @@ public class HomeP2P {
     private int port;
     private Client client;
     private String serverURL;
+    //lista delle altre case nella rete
     private List<Home> homesList;
     //lista delle case che hanno dato l'ack per far uscire questa casa dalla rete
     private List<Home> homesListExitAck;
+    //mappa delle ultime statistiche globali di ogni casa
+    HashMap<Integer, Statistics> homesLocalStats = new HashMap<>();
+    //ultima statistica prodotta dalla casa
     private static HomeP2P instance = null;
     private Home thisHome;
     private Status status;
 
     private HomeP2P() {
+
     }
 
     //setta le variabili della casa
@@ -40,6 +48,7 @@ public class HomeP2P {
         this.port = port;
         this.serverURL = serverURL;
         homesListExitAck = new ArrayList<>();
+        homesLocalStats = new HashMap<>();
         SetupServerConnection();
     }
 
@@ -133,6 +142,18 @@ public class HomeP2P {
         return homesListExitAck;
     }
 
+    public synchronized void addStatistic(Statistics s) {
+        homesLocalStats.put(s.getHomeId(), s);
+    }
+
+    public synchronized  Statistics getStatistic(int homeId) {
+        return getHomesLocalStats().get(homeId);
+    }
+
+    public synchronized HashMap<Integer, Statistics> getHomesLocalStats() {
+        return homesLocalStats;
+    }
+
     //controlla se due liste contengono gli stessi elementi
     public boolean sameElements(List firstList, List secondList)
     {
@@ -149,6 +170,7 @@ public class HomeP2P {
     public void broadCastMessage(Message m) throws IOException {
         List<Home> homesList = getHomesList();
         for(Home h : homesList) {
+            m.setTimestamp(makeTimestamp());
             HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
             client.start();
         }
@@ -157,5 +179,10 @@ public class HomeP2P {
     public void unicastMessage(Message m, Home h) throws IOException {
         HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
         client.start();
+    }
+
+    public long makeTimestamp() {
+        LocalTime now = LocalTime.now(ZoneId.systemDefault());
+        return now.toSecondOfDay();
     }
 }

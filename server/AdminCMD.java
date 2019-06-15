@@ -1,5 +1,7 @@
 package server;
 
+import beans.Home;
+import beans.Statistics;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;

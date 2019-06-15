@@ -2,10 +2,10 @@ package p2pNetwork;
 
 import Messages.Header;
 import Messages.Message;
+import beans.Statistics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import server.Home;
-
+import beans.Home;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.*;
@@ -41,8 +41,13 @@ public class HomeP2PServerThread extends Thread {
                 Home h = (Home)m.getContent();
                 //se la casa è in uno stato normale riceve messaggi di net entrance e net exit, scarta i net exit ack
                 if(homep2p.getStatus() == Status.WORKING) {
-                    if (m.getHeader() == Header.NET_ENTRANCE)
+                    //aggiunge una nuova casa nella rete e invia l'ultima statistica per allinearla
+                    if (m.getHeader() == Header.NET_ENTRANCE) {
                         homep2p.addHome(h);
+                        Message statMessage = new Message<Statistics>(Header.STAT, homep2p.makeTimestamp(), homep2p.getHomesLocalStats().get(homep2p.getThisHome().getId()));
+                        homep2p.unicastMessage(statMessage, h);
+                    }
+                    //rimuove la casa uscita dalla rete
                     else if (m.getHeader() == Header.NET_EXIT) {
                         //rispondo alla casa che sta uscendo dalla rete con un ack
                         Message netExitAck = new Message<Home>(Header.NET_EXIT_ACK, 1, homep2p.getThisHome());
@@ -50,6 +55,7 @@ public class HomeP2PServerThread extends Thread {
                         homep2p.removeHome(h);
                     }
                 }
+                //se sta uscendo dalla rete aspetta gli exit ack
                 else if (homep2p.getStatus() == Status.EXITING || m.getHeader() == Header.NET_EXIT_ACK)
                 {
                     System.out.print("ricevuto ack da: " + h.getId() + ", ");
@@ -59,6 +65,14 @@ public class HomeP2PServerThread extends Thread {
                     else
                         System.out.println("manca l'ack di qualche casa");
                 }
+            }
+            //se sta ricevendo una statistica
+            else if (genericMessage.getHeader() == Header.STAT)
+            {
+                Type typeToken = new TypeToken<Message<Statistics>>() {}.getType();
+                Message m = gson.fromJson(clientMessage, typeToken);
+                Statistics s = (Statistics)m.getContent();
+                homep2p.addStatistic(s);
             }
             connectionSocket.close();
         } catch (IOException e) {
