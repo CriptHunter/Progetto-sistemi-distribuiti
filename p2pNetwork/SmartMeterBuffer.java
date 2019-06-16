@@ -36,7 +36,6 @@ public class SmartMeterBuffer implements Buffer {
             Message message = new Message<Statistics>(Header.STAT, homep2p.makeTimestamp(), statistic);
             //aggiunge alla casa la nuova statistica locale
             homep2p.addStatistic(statistic);
-            homep2p.getHomesLocalStats().put(homep2p.getThisHome().getId(), statistic);
             try {
                 //invia la statistica a tutte le altre case
                 HomeP2P.getInstance().broadCastMessage(message);

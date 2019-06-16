@@ -19,7 +19,7 @@ public class HomeP2PMain {
         //registro la casa sul server REST, se non riesce termina il processo
         HomeP2P homep2p = HomeP2P.getInstance();
         homep2p.init(id, ip, port, address);
-        if(!HomeP2P.getInstance().SignOnServer())
+        if(!homep2p.SignOnServer())
             return;
 
         //avvia il server che crea server socket
@@ -29,17 +29,21 @@ public class HomeP2PMain {
         //dice a tutte le case della rete di essere entrata
         Message netEntranceMessage = new Message<Home>(Header.NET_ENTRANCE, homep2p.makeTimestamp(), new Home(id, ip, port));
         homep2p.broadCastMessage(netEntranceMessage);
+        //svuoto la lista di case perché prima di aggiungerle davvero aspetto risposta
+        homep2p.getHomesList().clear();
 
         //avvia il simulatore
         SmartMeterBuffer buffer = new SmartMeterBuffer(24, 12);
         SmartMeterSimulator simulator = new SmartMeterSimulator(buffer);
         simulator.start();
 
-        //avvia il thread che si occupa della stampa delle statistiche
-        new HomeP2PStatsPrinter().start();
+        //avvia il calcolatore di stat globali
+        new HomeP2PGlobalStatsMaker().start();
 
-        while(true)
-        {   Message netExitMessage = new Message<Home>(Header.NET_EXIT, homep2p.makeTimestamp(), new Home(id, ip, port));
+        new HomeP2PPrinter().start();
+
+        while(true) {
+            Message netExitMessage = new Message<Home>(Header.NET_EXIT, homep2p.makeTimestamp(), new Home(id, ip, port));
             System.out.println("Premi invio per rimuovere la casa dalla rete e terminare il processo");
             System.in.read();
             homep2p.setStatus(Status.EXITING);
@@ -50,5 +54,7 @@ public class HomeP2PMain {
             else
                 homep2p.broadCastMessage(netExitMessage);
         }
+
+
     }
 }

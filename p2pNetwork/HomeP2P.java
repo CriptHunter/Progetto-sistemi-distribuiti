@@ -36,6 +36,9 @@ public class HomeP2P {
     private Home thisHome;
     private Status status;
 
+    //per debug, indica il numero di statistica prodotta, viene incrementato ad ogni nuova statistica
+    public long statNumber = 0;
+
     private HomeP2P() {
 
     }
@@ -49,6 +52,7 @@ public class HomeP2P {
         this.serverURL = serverURL;
         homesListExitAck = new ArrayList<>();
         homesLocalStats = new HashMap<>();
+        homesLocalStats.put(id, null);
         SetupServerConnection();
     }
 
@@ -121,10 +125,12 @@ public class HomeP2P {
     }
 
     public synchronized boolean addHome(Home h) {
+        homesLocalStats.put(h.getId(), null);
         return homesList.add(h);
     }
 
     public synchronized void removeHome(Home h) {
+        homesLocalStats.remove(h.getId());
         for(Iterator<Home> itr = homesList.iterator(); itr.hasNext();){
             Home iter = itr.next();
             if(iter.getId() == h.getId()){
@@ -144,6 +150,12 @@ public class HomeP2P {
 
     public synchronized void addStatistic(Statistics s) {
         homesLocalStats.put(s.getHomeId(), s);
+    }
+
+    public synchronized void flushLocalStats()
+    {
+        for(int homeId : homesLocalStats.keySet())
+            homesLocalStats.put(homeId, null);
     }
 
     public synchronized  Statistics getStatistic(int homeId) {
@@ -179,6 +191,7 @@ public class HomeP2P {
     public void unicastMessage(Message m, Home h) throws IOException {
         HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
         client.start();
+        System.out.println("invio messaggio unicast a " + h.getId());
     }
 
     public long makeTimestamp() {

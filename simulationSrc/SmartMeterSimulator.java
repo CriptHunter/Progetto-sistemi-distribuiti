@@ -35,7 +35,7 @@ public class SmartMeterSimulator extends Simulator {
             addMeasurement(value);
 
             //waitingTime = 100 + (int)(Math.random()*200);
-            waitingTime = 200 + (int)(Math.random()*200);
+            waitingTime = 100 + (int)(Math.random()*200);
             sensorSleep(waitingTime);
             i+=0.2;
         }
