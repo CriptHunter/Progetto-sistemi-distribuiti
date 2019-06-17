@@ -117,6 +117,17 @@ public class HomeP2P {
         return true;
     }
 
+    public boolean sendLocalStatToServer(Statistics localStat)
+    {
+        WebResource webResource = client.resource(serverURL + "stats/local/add");
+        ClientResponse response = webResource.accept("application/xml").post(ClientResponse.class, localStat);
+        if(response.getStatus() != Response.Status.OK.getStatusCode()) {
+            System.err.println("problema nell'invio della statistica locale");
+            return false;
+        }
+        return true;
+    }
+
     public Home getThisHome() {
         return thisHome;
     }

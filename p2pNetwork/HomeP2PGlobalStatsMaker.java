@@ -51,8 +51,8 @@ public class HomeP2PGlobalStatsMaker extends Thread {
                     if (homesStat.get(homeId) != null)
                         System.out.println(homesStat.get(homeId));
                 }
+                new HomeP2PGlobalStatsSender(globalStat, new HashMap<>(homesStat)).start();
                 homep2p.flushLocalStats();
-                new HomeP2PGlobalStatsSender(globalStat, null).start();
                 Message m = new Message<Statistics>(Header.GLOBAL_STAT, homep2p.makeTimestamp(), globalStat);
                 try {
                     homep2p.broadCastMessage(m);

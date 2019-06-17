@@ -7,8 +7,6 @@ import simulationSrc.SmartMeterSimulator;
 
 import java.io.IOException;
 
-
-
 public class HomeP2PMain {
     public static void main(String argv[]) throws IOException, InterruptedException {
         //parametri passati dal main
@@ -37,16 +35,12 @@ public class HomeP2PMain {
         SmartMeterSimulator simulator = new SmartMeterSimulator(buffer);
         simulator.start();
 
-        //avvia il calcolatore di stat globali
-        new HomeP2PGlobalStatsMaker().start();
-
-        //new HomeP2PPrinter().start();
-
         while(true) {
             Message netExitMessage = new Message<Home>(Header.NET_EXIT, homep2p.makeTimestamp(), new Home(id, ip, port));
             System.out.println("Premi invio per rimuovere la casa dalla rete e terminare il processo");
             System.in.read();
             homep2p.setStatus(Status.EXITING);
+            Thread.sleep(4000);
             homep2p.SignOutFromServer();
             //se è l'unica casa nella rete esce, altrimenti invia un messaggio di uscita a tutte le case
             if(homep2p.getHomesList().size() == 0)
@@ -54,7 +48,5 @@ public class HomeP2PMain {
             else
                 homep2p.broadCastMessage(netExitMessage);
         }
-
-
     }
 }
