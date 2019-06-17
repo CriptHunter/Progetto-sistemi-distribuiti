@@ -40,7 +40,7 @@ public class HomeP2PMain {
         //avvia il calcolatore di stat globali
         new HomeP2PGlobalStatsMaker().start();
 
-        new HomeP2PPrinter().start();
+        //new HomeP2PPrinter().start();
 
         while(true) {
             Message netExitMessage = new Message<Home>(Header.NET_EXIT, homep2p.makeTimestamp(), new Home(id, ip, port));

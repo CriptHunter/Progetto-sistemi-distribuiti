@@ -9,6 +9,7 @@ import simulationSrc.Measurement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SmartMeterBuffer implements Buffer {
 
@@ -34,11 +35,8 @@ public class SmartMeterBuffer implements Buffer {
             HomeP2P homep2p = HomeP2P.getInstance();
             Statistics statistic = new Statistics(homep2p.getThisHome().getId(), average(), homep2p.makeTimestamp());
             Message message = new Message<Statistics>(Header.STAT, homep2p.makeTimestamp(), statistic);
-            //aggiunge alla casa la nuova statistica locale
-            homep2p.addStatistic(statistic);
             try {
-                //invia la statistica a tutte le altre case
-                HomeP2P.getInstance().broadCastMessage(message);
+                homep2p.unicastMessage(message, homep2p.getCoordinator());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -65,7 +63,7 @@ public class SmartMeterBuffer implements Buffer {
     }
 
     //svuota metà della finestra
-    private void flushBuffer() {
+    private synchronized void flushBuffer() {
         int n = overlapSize;
         while(n > 0)
         {

@@ -12,55 +12,52 @@ public class HomeP2PGlobalStatsMaker extends Thread {
 
     private HashMap<Integer, Statistics> homesStat;
     private double globalStatValue;
+    private long globalStatTimestamp;
     private boolean canMakeGlobalStat;
     private HomeP2P homep2p;
 
     public HomeP2PGlobalStatsMaker() {
         globalStatValue = 0;
+        globalStatTimestamp = 0;
+        canMakeGlobalStat = true;
         homep2p = HomeP2P.getInstance();
     }
 
     public void run() {
-        while(true)
-        {
-            try {
-                Thread.sleep(20000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+        boolean isCoordinator = homep2p.isCoordinator();
+
+        if(isCoordinator) {
+            homesStat = homep2p.getHomesLocalStats();
+            //se trova anche un solo valore nullo nell'hashmap la statistica globale non è calcolata
+            for (int homeId : homesStat.keySet()) {
+                if (homesStat.get(homeId) == null) {
+                    canMakeGlobalStat = false;
+                    break;
+                } else {
+                    globalStatValue = globalStatValue + homesStat.get(homeId).getValue();
+                    long timestamp = homesStat.get(homeId).getTimestamp();
+                    globalStatTimestamp = (globalStatTimestamp > timestamp) ? globalStatTimestamp : timestamp;
+                }
             }
 
-            boolean isCoordinator = true;
-            //controllo se è il coordinatore
-            for(Home h : homep2p.getHomesList())
-                if(h.getId() > homep2p.getThisHome().getId()) {
-                    isCoordinator = false;
-                    break;
-                }
-            if(isCoordinator) {
-                //se è il coordinatore
-                globalStatValue = 0;
-                canMakeGlobalStat = true;
-                homesStat = homep2p.getHomesLocalStats();
-
-                //se trova anche un solo valore nullo nell'hashmap la statistica globale non è calcolata
+            if (canMakeGlobalStat && globalStatValue != 0) {
+                Statistics globalStat = new Statistics(-1, globalStatValue, globalStatTimestamp);
+                System.out.println("------------------------------------------------------------------------");
+                System.out.println("Statistica globale prodotta: " + globalStat.getValue() + " | " + globalStat.getTimestamp());
+                System.out.println("Misurazioni che la compongono: ");
+                //stampo le ultime statistiche di ogni casa
                 for (int homeId : homesStat.keySet()) {
-                    if (homesStat.get(homeId) == null) {
-                        canMakeGlobalStat = false;
-                        break;
-                    } else
-                        globalStatValue = globalStatValue + homesStat.get(homeId).getValue();
+                    if (homesStat.get(homeId) != null)
+                        System.out.println(homesStat.get(homeId));
                 }
-
-                if (canMakeGlobalStat && globalStatValue != 0) {
-                    System.out.println("--------------------------------------------------");
-                    System.out.println("La global stat è " + globalStatValue);
-                    System.out.println("Misurazioni che la compongono: ");
-                    //stampo le ultime statistiche di ogni casa
-                    for (int homeId : homep2p.getHomesLocalStats().keySet()) {
-                        if (homesStat.get(homeId) != null)
-                            System.out.println("id casa: " + homeId + "| valore: " + homesStat.get(homeId).getValue() + " | timestamp: " + homesStat.get(homeId).getTimestamp());
-                    }
-                    homep2p.flushLocalStats();
+                homep2p.flushLocalStats();
+                new HomeP2PGlobalStatsSender(globalStat, null).start();
+                Message m = new Message<Statistics>(Header.GLOBAL_STAT, homep2p.makeTimestamp(), globalStat);
+                try {
+                    homep2p.broadCastMessage(m);
+                } catch (IOException e) {
+                    System.out.println("problemi nell'invio di messaggi broadcast");
                 }
             }
         }

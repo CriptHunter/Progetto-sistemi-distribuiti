@@ -31,13 +31,9 @@ public class HomeP2P {
     private List<Home> homesListExitAck;
     //mappa delle ultime statistiche globali di ogni casa
     HashMap<Integer, Statistics> homesLocalStats = new HashMap<>();
-    //ultima statistica prodotta dalla casa
     private static HomeP2P instance = null;
     private Home thisHome;
     private Status status;
-
-    //per debug, indica il numero di statistica prodotta, viene incrementato ad ogni nuova statistica
-    public long statNumber = 0;
 
     private HomeP2P() {
 
@@ -52,7 +48,7 @@ public class HomeP2P {
         this.serverURL = serverURL;
         homesListExitAck = new ArrayList<>();
         homesLocalStats = new HashMap<>();
-        homesLocalStats.put(id, null);
+        //homesLocalStats.put(id, null);
         SetupServerConnection();
     }
 
@@ -111,6 +107,16 @@ public class HomeP2P {
             return false;
     }
 
+    public boolean sendGlobalStatToServer(Statistics globalStat) {
+        WebResource webResource = client.resource(serverURL + "stats/global/add");
+        ClientResponse response = webResource.accept("application/xml").post(ClientResponse.class, globalStat);
+        if(response.getStatus() != Response.Status.OK.getStatusCode()) {
+            System.err.println("problema nell'invio della statistica globale");
+            return false;
+        }
+        return true;
+    }
+
     public Home getThisHome() {
         return thisHome;
     }
@@ -130,7 +136,10 @@ public class HomeP2P {
     }
 
     public synchronized void removeHome(Home h) {
+        //rimuove la casa dall'hashmap
         homesLocalStats.remove(h.getId());
+
+        //rimuove la casa dalla lista di case
         for(Iterator<Home> itr = homesList.iterator(); itr.hasNext();){
             Home iter = itr.next();
             if(iter.getId() == h.getId()){
@@ -156,10 +165,6 @@ public class HomeP2P {
     {
         for(int homeId : homesLocalStats.keySet())
             homesLocalStats.put(homeId, null);
-    }
-
-    public synchronized  Statistics getStatistic(int homeId) {
-        return getHomesLocalStats().get(homeId);
     }
 
     public synchronized HashMap<Integer, Statistics> getHomesLocalStats() {
@@ -191,11 +196,28 @@ public class HomeP2P {
     public void unicastMessage(Message m, Home h) throws IOException {
         HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
         client.start();
-        System.out.println("invio messaggio unicast a " + h.getId());
     }
 
     public long makeTimestamp() {
         LocalTime now = LocalTime.now(ZoneId.systemDefault());
         return now.toSecondOfDay();
+    }
+
+    public boolean isCoordinator()
+    {
+        for(Home h : getHomesList())
+            if(h.getId() > getThisHome().getId()) {
+                return false;
+            }
+        return true;
+    }
+
+    public Home getCoordinator() {
+        Home coordinator = thisHome;
+        for(Home h : getHomesList())
+            if(h.getId() > coordinator.getId()) {
+                coordinator = h;
+            }
+        return coordinator;
     }
 }

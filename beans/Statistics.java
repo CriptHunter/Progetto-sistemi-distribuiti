@@ -42,4 +42,8 @@ public class Statistics {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+    public String toString() {
+        return "id casa: " + this.homeId + " | valore: " + this.value + " | timestamp: " + this.timestamp;
+    }
 }
