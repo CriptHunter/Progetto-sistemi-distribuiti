@@ -34,7 +34,9 @@ public class HomeP2PServerThread extends Thread {
             //leggo l'header del messaggio per capire che tipo di oggetto c'è in content
             Message genericMessage = gson.fromJson(clientMessage, Message.class);
             //ora che so quale content c'è faccio un if diverso per ogni tipo di contenuto
-            if(genericMessage.getHeader() == Header.NET_ENTRANCE || genericMessage.getHeader() == Header.NET_ENTRANCE_ACK || genericMessage.getHeader() == Header.NET_EXIT || genericMessage.getHeader() == Header.NET_EXIT_ACK)
+            if(genericMessage.getHeader() == Header.NET_ENTRANCE || genericMessage.getHeader() == Header.NET_ENTRANCE_ACK ||
+                    genericMessage.getHeader() == Header.NET_EXIT || genericMessage.getHeader() == Header.NET_EXIT_ACK ||
+                    genericMessage.getHeader() == Header.BOOST_REQUEST || genericMessage.getHeader() == Header.BOOST_OK )
             {
                 Type typeToken = new TypeToken<Message<Home>>() {}.getType();
                 Message m = gson.fromJson(clientMessage, typeToken);
@@ -57,6 +59,14 @@ public class HomeP2PServerThread extends Thread {
                     homep2p.unicastMessage(netExitAck, h);
                     homep2p.removeHome(h);
                 }
+                else if(m.getHeader() == Header.BOOST_REQUEST && homep2p.getStatus() != Status.EXITING) {
+                    //se gli arriva una richiesta di boost fa il test per vedere se l'altra casa può boostarsi
+                    homep2p.boostRequestTest(h, m.getTimestamp());
+                }
+                else if(m.getHeader() == Header.BOOST_OK && homep2p.getStatus() != Status.EXITING) {
+                    //se gli arriva un OK prova a vedere se può boostarsi
+                    new HomeP2PBoost(h).start();
+                }
                 //se sta uscendo dalla rete aspetta gli exit ack
                 else if (m.getHeader() == Header.NET_EXIT_ACK && homep2p.getStatus() == Status.EXITING)
                 {
@@ -67,12 +77,12 @@ public class HomeP2PServerThread extends Thread {
                 }
             }
             //se sta ricevendo una statistica la aggiunge alla sua hashmap
-            else if (genericMessage.getHeader() == Header.STAT || genericMessage.getHeader() == Header.GLOBAL_STAT)
+            else if (genericMessage.getHeader() == Header.LOCAL_STAT || genericMessage.getHeader() == Header.GLOBAL_STAT)
             {
                 Type typeToken = new TypeToken<Message<Statistics>>() {}.getType();
                 Message m = gson.fromJson(clientMessage, typeToken);
                 Statistics s = (Statistics)m.getContent();
-                if(genericMessage.getHeader() == Header.STAT && homep2p.getStatus() != Status.EXITING) {
+                if(genericMessage.getHeader() == Header.LOCAL_STAT && homep2p.getStatus() != Status.EXITING) {
                     homep2p.addStatistic(s);
                     new HomeP2PGlobalStatsMaker().start();
                 }

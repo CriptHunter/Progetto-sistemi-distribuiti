@@ -1,5 +1,6 @@
 package p2pNetwork;
 
+import Messages.Header;
 import Messages.Message;
 import beans.Statistics;
 import com.sun.jersey.api.client.Client;
@@ -203,8 +204,7 @@ public class HomeP2P {
         List<Home> homesList = getHomesList();
         for(Home h : homesList) {
             m.setTimestamp(makeTimestamp());
-            HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
-            client.start();
+            unicastMessage(m, h);
         }
     }
 
@@ -248,5 +248,110 @@ public class HomeP2P {
                 coordinator = h;
             }
         return coordinator;
+    }
+
+    //////////////////////////////////////////ZONA RICART AGRAWALA///////////////////////////////////////////////////////
+
+    private boolean requestingBoost = false;
+    private boolean boosting = false;
+    private long boostRequestTimestamp = Long.MAX_VALUE;
+    private List<Home> boostWaitingList = new ArrayList<>(); //case in attesa di OK da questa casa
+    private List<Home> boostOkList = new ArrayList<>();  //case che hanno dato OK a questa casa
+
+    public boolean isRequestingBoost() {
+        System.out.println("<<<<< isRequestingBoost <<<<<<");
+        return requestingBoost;
+    }
+
+    public void setBoost(boolean boosting) {
+        this.boosting = boosting;
+    }
+
+    public boolean isBoosting() {
+        System.out.println("<<<<< isBoosting <<<<<<");
+        return boosting;
+    }
+
+
+    public synchronized void requestBoost(boolean requestingBoost) throws IOException {
+        System.out.println("<<<<< requestBoost <<<<<<");
+        this.requestingBoost = requestingBoost;
+        if(requestingBoost) {
+            this.boostRequestTimestamp = makeTimestamp();
+            Message m = new Message<Home>(Header.BOOST_REQUEST, makeTimestamp(), thisHome);
+            broadCastMessage(m);
+        }
+
+        /*else //se ci sono 2 o meno case posso boostarmi direttamente
+            //new HomeP2PBoost(thisHome).start();
+            System.out.println("c'è solo una casa");*/
+    }
+
+    public synchronized void addToBoostWaitingList(Home h) {
+        System.out.println("<<<<< addToBoostWaitingList <<<<<<");
+        boostWaitingList.add(h);
+    }
+
+    public synchronized List<Home> getBoostWaitingList() {
+        List<Home> l = new ArrayList<>(boostWaitingList);
+        return l;
+    }
+
+    public synchronized void addToBoostOkList(Home h) {
+        System.out.println("<<<<< addToOkBoostList <<<<<<");
+        boostOkList.add(h);
+    }
+
+    public synchronized List<Home> getBoostOkList() {
+        List<Home> l = new ArrayList<>(boostOkList);
+        return l;
+    }
+
+    public synchronized void boostRequestTest(Home otherHome, long otherTimestamp) throws IOException {
+        System.out.println("<<<<< boostRequestTest <<<<<<");
+        int otherId = otherHome.getId();
+        //se la casa vuole boostarsi
+        if(isBoosting())
+        {
+            System.out.println("mi sto boostando, aggiungo " + otherHome.getId() + " alla coda");
+            addToBoostWaitingList(otherHome);
+        }
+        else if(isRequestingBoost()) {
+            if(boostRequestTimestamp > otherTimestamp) /*l'altra casa ha la priorità */{
+                System.out.println("la casa " + otherId + " ha la priorità sul boost");
+                Message m = new Message<Home>(Header.BOOST_OK, makeTimestamp(), thisHome);
+                unicastMessage(m, otherHome);
+            }
+            else if (boostRequestTimestamp < otherTimestamp) /*questa casa ha la priorità*/ {
+                System.out.println("Ho la priorità sulla casa " + otherId + " per il boost");
+                addToBoostWaitingList(otherHome);
+            }
+            else if(boostRequestTimestamp == otherTimestamp) {
+                System.out.println("Il timestamp della casa " + otherId + " è uguale al mio per il boost");
+                if(thisHome.getId() > otherHome.getId()) {
+                    System.out.println("Il mio Id è maggiore e quindi vinco");
+                    addToBoostWaitingList(otherHome);
+                }
+                else {
+                    System.out.println("Il mio Id è minore e quindi perdo");
+                    Message m = new Message<Home>(Header.BOOST_OK, makeTimestamp(), thisHome);
+                    unicastMessage(m, otherHome);
+                }
+            }
+        }
+        else {
+            Message m = new Message<Home>(Header.BOOST_OK, makeTimestamp(), thisHome);
+            unicastMessage(m, otherHome);
+        }
+    }
+
+    public synchronized  void boostFinished() throws IOException {
+        System.out.println("<<<<< boostFinished <<<<<<");
+        List<Home> l = getBoostWaitingList();
+        Message m = new Message(Header.BOOST_OK, makeTimestamp(), thisHome);
+        broadCastMessageCustomHomesList(m, l);
+        setBoost(false);
+        boostOkList.clear();
+        boostWaitingList.clear();
     }
 }

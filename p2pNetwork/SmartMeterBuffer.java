@@ -9,7 +9,6 @@ import simulationSrc.Measurement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class SmartMeterBuffer implements Buffer {
 
@@ -34,7 +33,7 @@ public class SmartMeterBuffer implements Buffer {
         public void run() {
             HomeP2P homep2p = HomeP2P.getInstance();
             Statistics statistic = new Statistics(homep2p.getThisHome().getId(), average(), homep2p.makeTimestamp());
-            Message message = new Message<Statistics>(Header.STAT, homep2p.makeTimestamp(), statistic);
+            Message message = new Message<Statistics>(Header.LOCAL_STAT, homep2p.makeTimestamp(), statistic);
             try {
                 homep2p.unicastMessage(message, homep2p.getCoordinator());
             } catch (IOException e) {

@@ -32,11 +32,11 @@ public class HomeP2PMain {
         Message netEntranceMessage = new Message<Home>(Header.NET_ENTRANCE, homep2p.makeTimestamp(), new Home(id, ip, port));
         homep2p.broadCastMessageCustomHomesList(netEntranceMessage, tempHomesList);
         //avvia il simulatore
-        SmartMeterBuffer buffer = new SmartMeterBuffer(24, 12);
+        /*SmartMeterBuffer buffer = new SmartMeterBuffer(24, 12);
         SmartMeterSimulator simulator = new SmartMeterSimulator(buffer);
         simulator.start();
 
-        new HomeP2PPrinter().start();
+        new HomeP2PPrinter().start();*/
 
         System.out.println("Comandi casa:");
         System.out.println("#1 Esci dalla rete");
@@ -57,6 +57,7 @@ public class HomeP2PMain {
             }
             else if(command == 50) {
                 System.out.println("richiedo boost");
+                homep2p.requestBoost(true);
             }
         }
     }
