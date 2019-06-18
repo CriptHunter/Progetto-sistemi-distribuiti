@@ -20,5 +20,6 @@ public class StartServer {
         System.out.println("Arresto in corso...");
         server.stop(0);
         System.out.println("Server spento!");
+        System.exit(0);
     }
 }

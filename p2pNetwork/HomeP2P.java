@@ -14,10 +14,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class HomeP2P {
     private int id;
@@ -160,12 +157,18 @@ public class HomeP2P {
     }
 
     public synchronized List<Home> getHomesList() {
-        return homesList;
+        List<Home> homesListCopy = new ArrayList<>(homesList);
+        return homesListCopy;
     }
 
     public synchronized List<Home> getHomesListExitAck()
     {
+        List<Home> homesListCopy = new ArrayList<>(homesList);
         return homesListExitAck;
+    }
+
+    public synchronized void clearHomesList() {
+        homesList.clear();
     }
 
     public synchronized void addStatistic(Statistics s) {
@@ -179,7 +182,8 @@ public class HomeP2P {
     }
 
     public synchronized HashMap<Integer, Statistics> getHomesLocalStats() {
-        return homesLocalStats;
+        HashMap<Integer, Statistics> homesLocalStatsCopy = new HashMap<>(homesLocalStats);
+        return homesLocalStatsCopy;
     }
 
     //controlla se due liste contengono gli stessi elementi
@@ -204,14 +208,28 @@ public class HomeP2P {
         }
     }
 
+    public void  broadCastMessageCustomHomesList(Message m, List<Home> homesList) throws IOException {
+        for(Home h : homesList) {
+            m.setTimestamp(makeTimestamp());
+            HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
+            client.start();
+        }
+    }
+
     public void unicastMessage(Message m, Home h) throws IOException {
         HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
         client.start();
     }
 
-    public long makeTimestamp() {
+    /*public long makeTimestamp() {
         LocalTime now = LocalTime.now(ZoneId.systemDefault());
         return now.toSecondOfDay();
+    }*/
+
+    //ritorna i secondi passati dal 1970
+    public long makeTimestamp() {
+        return java.time.Instant.now().getEpochSecond();
+
     }
 
     public boolean isCoordinator()
@@ -223,7 +241,7 @@ public class HomeP2P {
         return true;
     }
 
-    public Home getCoordinator() {
+        public Home getCoordinator() {
         Home coordinator = thisHome;
         for(Home h : getHomesList())
             if(h.getId() > coordinator.getId()) {
