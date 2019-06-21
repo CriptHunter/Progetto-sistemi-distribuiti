@@ -42,7 +42,6 @@ public class SmartMeterBuffer implements Buffer {
         }
     }
 
-
     public SmartMeterBuffer(int windowSize, int overlapSize) {
         this.windowSize = windowSize;
         this.overlapSize = overlapSize;

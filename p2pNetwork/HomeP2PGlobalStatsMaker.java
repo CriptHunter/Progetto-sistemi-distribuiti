@@ -26,7 +26,6 @@ public class HomeP2PGlobalStatsMaker extends Thread {
     public void run() {
 
         boolean isCoordinator = homep2p.isCoordinator();
-
         if(isCoordinator) {
             homesStat = homep2p.getHomesLocalStats();
             //se trova anche un solo valore nullo nell'hashmap la statistica globale non è calcolata
@@ -42,6 +41,7 @@ public class HomeP2PGlobalStatsMaker extends Thread {
             }
 
             if (canMakeGlobalStat && globalStatValue != 0) {
+                homep2p.flushLocalStats();
                 Statistics globalStat = new Statistics(-1, globalStatValue, globalStatTimestamp);
                 System.out.println("------------------------------------------------------------------------");
                 System.out.println("Statistica globale prodotta: " + globalStat.getValue() + " | " + globalStat.getTimestamp());
@@ -52,7 +52,6 @@ public class HomeP2PGlobalStatsMaker extends Thread {
                         System.out.println(homesStat.get(homeId));
                 }
                 new HomeP2PGlobalStatsSender(globalStat, new HashMap<>(homesStat)).start();
-                homep2p.flushLocalStats();
                 Message m = new Message<Statistics>(Header.GLOBAL_STAT, homep2p.makeTimestamp(), globalStat);
                 try {
                     homep2p.broadCastMessage(m);

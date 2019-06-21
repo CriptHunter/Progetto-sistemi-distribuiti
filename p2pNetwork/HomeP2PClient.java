@@ -2,13 +2,10 @@ package p2pNetwork;
 
 import Messages.Message;
 import com.google.gson.Gson;
-import com.sun.media.sound.InvalidFormatException;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.util.concurrent.ExecutionException;
 
 public class HomeP2PClient extends Thread {
     private int port;

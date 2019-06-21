@@ -64,8 +64,13 @@ public class HomeP2PServerThread extends Thread {
                     homep2p.boostRequestTest(h, m.getTimestamp());
                 }
                 else if(m.getHeader() == Header.BOOST_OK && homep2p.getStatus() != Status.EXITING) {
-                    //se gli arriva un OK prova a vedere se può boostarsi
-                    new HomeP2PBoost(h).start();
+                    //se non si sta già boostando riceve gli OK delle altre case
+                    if(!homep2p.isBoosting() && !homep2p.canBoost()) {
+                        homep2p.addToBoostOkList(h);
+                        System.out.println("ricevuto OK da " + h.getId());
+                        //se gli arriva un OK prova a vedere se può boostarsi
+                        new HomeP2PBoost().start();
+                    }
                 }
                 //se sta uscendo dalla rete aspetta gli exit ack
                 else if (m.getHeader() == Header.NET_EXIT_ACK && homep2p.getStatus() == Status.EXITING)

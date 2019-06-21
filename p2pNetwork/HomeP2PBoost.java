@@ -3,33 +3,27 @@ package p2pNetwork;
 import beans.Home;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.ZoneId;
 
 public class HomeP2PBoost extends Thread {
 
-    private Home h;
     private HomeP2P homep2p;
 
-    public HomeP2PBoost(Home h) {
-        this.h = h;
+    public HomeP2PBoost() {
         homep2p = HomeP2P.getInstance();
     }
 
     public void run() {
-        homep2p.addToBoostOkList(h);
-        System.out.println("ricevuto OK da " + h.getId());
-        if(homep2p.sameElements(homep2p.getBoostOkList(), homep2p.getHomesList())) {
-            System.out.println("posso boostarmi");
+        if(homep2p.canBoost() && !homep2p.isBoosting()) {
             try {
-                homep2p.requestBoost(false);
-                homep2p.setBoost(true);
+                homep2p.startBoost();
                 Thread.sleep(10000);
-                System.out.println("ho finito di boostarmi");
-                homep2p.boostFinished();
+                homep2p.endBoost();
             } catch (InterruptedException | IOException e) {
+                System.out.println("errore nel processo di boosting");
                 e.printStackTrace();
             }
         }
-        else
-            System.out.println("manca OK da qualche casa");
     }
 }

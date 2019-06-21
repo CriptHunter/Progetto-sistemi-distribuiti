@@ -13,7 +13,7 @@ public class HomeP2PPrinter extends Thread {
             System.out.println("Lista case nella rete:");
             for(Home h : HomeP2P.getInstance().getHomesList())
                 System.out.println("id casa: " + h.getId() + "| porta: " + h.getPort());
-            System.out.println("------------------------------------------");
+            System.out.println("--------------------------------------------------------");
         }
     }
 }
