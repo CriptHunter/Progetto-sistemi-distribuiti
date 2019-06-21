@@ -3,6 +3,7 @@ package p2pNetwork;
 import Messages.Header;
 import Messages.Message;
 import beans.Home;
+import server.ConsoleColors;
 import simulationSrc.SmartMeterSimulator;
 
 import java.io.IOException;
@@ -27,7 +28,8 @@ public class HomeP2PMain {
         HomeP2P homep2p = HomeP2P.getInstance();
         homep2p.init(id, ip, port, address);
         if(!homep2p.SignOnServer())
-            return;
+            System.exit(0);
+
         System.out.println("Registrazione sul server REST completata");
         List<Home> tempHomesList = homep2p.getHomesList();
         //svuoto la lista di case perchè prima di aggiungerle aspetto un ACK
@@ -40,13 +42,17 @@ public class HomeP2PMain {
         SmartMeterBuffer buffer = new SmartMeterBuffer(24, 12);
         simulator = new SmartMeterSimulator(buffer);
         simulator.start();
+        System.out.println("Avviato il simulatore di misurazioni");
 
         new HomeP2PGlobalStatsMaker().start();
-        //new HomeP2PPrinter().start();
+        new HomeP2PPrinter().start();
 
+        System.out.print(ConsoleColors.GREEN_BOLD);
         System.out.println("Comandi casa:");
         System.out.println("#1 Esci dalla rete");
         System.out.println("#2 Richiedi boost");
+        System.out.print(ConsoleColors.RESET);
+
         while(true) {
             int command = System.in.read();
             //49 corrisponde al numero 1, 50 al numero 2 (sulla tastiera)

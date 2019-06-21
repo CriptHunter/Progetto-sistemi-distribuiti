@@ -19,7 +19,7 @@ class HomeP2PServer extends Thread {
             try {
                 connectionSocket = socket.accept();
             } catch (IOException e) {
-                System.out.println("error in accept");
+                System.out.println("errore su accept()");
             }
             HomeP2PServerThread serverThread = new HomeP2PServerThread(connectionSocket);
             serverThread.start();

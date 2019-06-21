@@ -24,6 +24,7 @@ public class HomeP2PServerThread extends Thread {
             inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
             outToClient = new DataOutputStream(connectionSocket.getOutputStream());
         } catch (IOException e) {
+            System.err.println("errore nella creazione di input/output stream");
             e.printStackTrace();
         }
     }
@@ -69,7 +70,7 @@ public class HomeP2PServerThread extends Thread {
                         homep2p.addToBoostOkList(h);
                         System.out.println("ricevuto OK da " + h.getId());
                         //se gli arriva un OK prova a vedere se può boostarsi
-                        new HomeP2PBoost().start();
+                        new HomeP2PBoostStarter().start();
                     }
                 }
                 //se sta uscendo dalla rete aspetta gli exit ack
@@ -89,13 +90,21 @@ public class HomeP2PServerThread extends Thread {
                 Statistics s = (Statistics)m.getContent();
                 if(genericMessage.getHeader() == Header.LOCAL_STAT && homep2p.getStatus() != Status.EXITING) {
                     homep2p.addStatistic(s);
-                    new HomeP2PGlobalStatsMaker().start();
+                    try {
+                        synchronized (homep2p) {
+                            homep2p.notify();
+                        }
+                    } catch (Exception e) {
+                        System.out.println("errore nel notify di una nuova statistica");
+                        e.printStackTrace();
+                    }
                 }
                 else if (genericMessage.getHeader() == Header.GLOBAL_STAT && homep2p.getStatus() != Status.EXITING)
                     System.out.println("Statistica globale ricevuta: " + s.getValue() + " | " + s.getTimestamp());
             }
             connectionSocket.close();
         } catch (IOException e) {
+            System.out.println("errore nell'invio dei messaggi dal server");
             e.printStackTrace();
         }
     }

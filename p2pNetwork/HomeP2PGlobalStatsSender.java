@@ -1,7 +1,10 @@
 package p2pNetwork;
 
+import Messages.Header;
+import Messages.Message;
 import beans.Statistics;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class HomeP2PGlobalStatsSender extends Thread {
@@ -16,7 +19,16 @@ public class HomeP2PGlobalStatsSender extends Thread {
     }
 
     public void run() {
+        Message m = new Message<Statistics>(Header.GLOBAL_STAT, homep2p.makeTimestamp(), globalStat);
+        try {
+            homep2p.broadCastMessage(m);
+        } catch (IOException e) {
+            System.out.println("problemi nell'invio broadcast delle statistiche globali");
+        }
+
+        //invia statistiche globali e locali al server
         homep2p.sendGlobalStatToServer(globalStat);
+        //invia statistiche locali al server
         for(int homeId : localStats.keySet()) {
             homep2p.sendLocalStatToServer(localStats.get(homeId));
         }

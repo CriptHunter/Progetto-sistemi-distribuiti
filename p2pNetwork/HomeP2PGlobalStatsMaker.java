@@ -25,38 +25,48 @@ public class HomeP2PGlobalStatsMaker extends Thread {
 
     public void run() {
 
-        boolean isCoordinator = homep2p.isCoordinator();
-        if(isCoordinator) {
-            homesStat = homep2p.getHomesLocalStats();
-            //se trova anche un solo valore nullo nell'hashmap la statistica globale non è calcolata
-            for (int homeId : homesStat.keySet()) {
-                if (homesStat.get(homeId) == null) {
-                    canMakeGlobalStat = false;
-                    break;
-                } else {
-                    globalStatValue = globalStatValue + homesStat.get(homeId).getValue();
-                    long timestamp = homesStat.get(homeId).getTimestamp();
-                    globalStatTimestamp = (globalStatTimestamp > timestamp) ? globalStatTimestamp : timestamp;
+        while (true) {
+            synchronized (homep2p) {
+                try {
+                    homep2p.wait();
+                } catch (InterruptedException e) {
+                    System.out.println("errore durante il wait() di nuove statistiche");
+                    e.printStackTrace();
                 }
             }
 
-            if (canMakeGlobalStat && globalStatValue != 0) {
-                homep2p.flushLocalStats();
-                Statistics globalStat = new Statistics(-1, globalStatValue, globalStatTimestamp);
-                System.out.println("------------------------------------------------------------------------");
-                System.out.println("Statistica globale prodotta: " + globalStat.getValue() + " | " + globalStat.getTimestamp());
-                System.out.println("Misurazioni che la compongono: ");
-                //stampo le ultime statistiche di ogni casa
+            canMakeGlobalStat = true;
+            globalStatValue = 0;
+            globalStatTimestamp = 0;
+            canMakeGlobalStat = true;
+
+            boolean isCoordinator = homep2p.isCoordinator();
+            if (isCoordinator) {
+                homesStat = homep2p.getHomesLocalStats();
+                //se trova anche un solo valore nullo nell'hashmap la statistica globale non è calcolata
                 for (int homeId : homesStat.keySet()) {
-                    if (homesStat.get(homeId) != null)
-                        System.out.println(homesStat.get(homeId));
+                    if (homesStat.get(homeId) == null) {
+                        canMakeGlobalStat = false;
+                        break;
+                    } else {
+                        globalStatValue = globalStatValue + homesStat.get(homeId).getValue();
+                        long timestamp = homesStat.get(homeId).getTimestamp();
+                        globalStatTimestamp = (globalStatTimestamp > timestamp) ? globalStatTimestamp : timestamp;
+                    }
                 }
-                new HomeP2PGlobalStatsSender(globalStat, new HashMap<>(homesStat)).start();
-                Message m = new Message<Statistics>(Header.GLOBAL_STAT, homep2p.makeTimestamp(), globalStat);
-                try {
-                    homep2p.broadCastMessage(m);
-                } catch (IOException e) {
-                    System.out.println("problemi nell'invio di messaggi broadcast");
+
+                if (canMakeGlobalStat && globalStatValue != 0) {
+                    homep2p.flushLocalStats();
+                    Statistics globalStat = new Statistics(-1, globalStatValue, globalStatTimestamp);
+                    System.out.println("------------------------------------------------------------------------");
+                    System.out.println("Statistica globale prodotta: " + globalStat.getValue() + " | " + globalStat.getTimestamp());
+                    System.out.println("Misurazioni che la compongono: ");
+                    //stampo le ultime statistiche di ogni casa
+                    for (int homeId : homesStat.keySet()) {
+                        if (homesStat.get(homeId) != null)
+                            System.out.println(homesStat.get(homeId));
+                    }
+                    new HomeP2PGlobalStatsSender(globalStat, new HashMap<>(homesStat)).start();
                 }
             }
         }

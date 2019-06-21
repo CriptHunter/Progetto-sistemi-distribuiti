@@ -11,6 +11,8 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 import beans.Home;
+import server.ConsoleColors;
+
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -85,7 +87,6 @@ public class HomeP2P {
             //se la registrazione va a buon fine ottengo la lista di case
             homesList = response.getEntity(new GenericType<List<Home>>(){});
         }
-
         catch(Exception e) {
             System.err.println("REST server irraggiungibile");
             return false;
@@ -270,7 +271,6 @@ public class HomeP2P {
     }
 
     //////////////////////////////////////////RICART AGRAWALA///////////////////////////////////////////////////////
-
     private boolean requestingBoost = false;
     private boolean boosting = false;
     private long boostRequestTimestamp = Long.MAX_VALUE; //timestamp della richiesta di questa casa
@@ -311,7 +311,7 @@ public class HomeP2P {
             }
             else {
                 System.out.println("ci sono due o meno case nella rete");
-                new HomeP2PBoost().start();
+                new HomeP2PBoostStarter().start();
             }
         }
         else
@@ -347,7 +347,7 @@ public class HomeP2P {
         int otherId = otherHome.getId();
         //se la casa vuole boostarsi
         if(isBoosting()) {
-            System.out.println("mi sto boostando, aggiungo " + otherHome.getId() + " alla coda");
+            //System.out.println("mi sto boostando, aggiungo " + otherHome.getId() + " alla coda");
             addToBoostWaitingList(otherHome);
         }
         else if(isRequestingBoost()) {
@@ -363,7 +363,7 @@ public class HomeP2P {
             else if(boostRequestTimestamp == otherTimestamp) /*il timestamp è uguale controllo gli id */ {
                 //System.out.println("sto richiedendo il boost e Il timestamp della casa " + otherId + " è uguale al mio per il boost");
                 if(thisHome.getId() > otherHome.getId()) {
-                    System.out.println("Il mio Id è maggiore e quindi vinco");
+                    //System.out.println("Il mio Id è maggiore e quindi vinco");
                     addToBoostWaitingList(otherHome);
                 }
                 else {
@@ -397,15 +397,21 @@ public class HomeP2P {
         }
     }
 
-    public void startBoost() throws IOException, InterruptedException {
-        System.out.println("<<<<< startBoost <<<<<<" + LocalTime.now(ZoneId.systemDefault()));
+    public synchronized void startBoost() throws IOException, InterruptedException {
+        if(isBoosting())
+            return;
+        System.out.print(ConsoleColors.GREEN_BOLD);
+        System.out.println("<<<<< startBoost <<<<<< " + LocalTime.now(ZoneId.systemDefault()));
+        System.out.print(ConsoleColors.RESET);
         requestBoost(false);
         setBoost(true);
         simulator.boost();
     }
 
     public void endBoost() throws IOException {
-        System.out.println("<<<<< endBoost <<<<<<" + LocalTime.now(ZoneId.systemDefault()));
+        System.out.print(ConsoleColors.GREEN_BOLD);
+        System.out.println("<<<<< endBoost <<<<<< " + LocalTime.now(ZoneId.systemDefault()));
+        System.out.print(ConsoleColors.RESET);
         List<Home> l = getBoostWaitingList();
         Message m = new Message(Header.BOOST_OK, makeTimestamp(), thisHome);
         broadCastMessageCustomHomesList(m, l);

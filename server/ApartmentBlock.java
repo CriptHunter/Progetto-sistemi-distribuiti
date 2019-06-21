@@ -87,6 +87,8 @@ public class ApartmentBlock {
 
     public List<Statistics> getLocalStatistics(int homeId, int n)
     {
+        if(n < 0)
+            n = 0;
         ArrayList<Statistics> statisticsList = getLocalStatisticsMap().get(homeId);
         if(statisticsList == null)
             return new ArrayList<>();
@@ -102,6 +104,8 @@ public class ApartmentBlock {
 
     public List<Statistics> getGlobalStatistics(int n)
     {
+        if(n < 0)
+            n = 0;
         List<Statistics> globalStatisticsListCopy = getGlobalStatisticsList();
         if(n > globalStatisticsListCopy.size())
             return globalStatisticsListCopy;
@@ -133,21 +137,29 @@ public class ApartmentBlock {
     }
 
     public double getGlobalStatisticsAverage(int n) {
+        if(n < 0)
+            n = 0;
         List<Statistics> statsList = getGlobalStatistics(n);
         return average(statsList);
     }
 
     public double getLocalStatisticsAverage(int homeId, int n) {
+        if(n < 0)
+            n = 0;
         List<Statistics> statsList = getLocalStatistics(homeId, n);
         return average(statsList);
     }
 
     public double getGlobalStatisticsStandardDeviation(int n) {
+        if(n < 0)
+            n = 0;
         List<Statistics> statsList = getGlobalStatistics(n);
         return standardDeviation(statsList);
     }
 
     public double getLocalStatisticsStandardDeviation(int homeId, int n) {
+        if(n < 0)
+            n = 0;
         List<Statistics> statsList = getLocalStatistics(homeId, n);
         return standardDeviation(statsList);
     }

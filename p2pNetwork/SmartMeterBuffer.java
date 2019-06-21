@@ -37,6 +37,7 @@ public class SmartMeterBuffer implements Buffer {
             try {
                 homep2p.unicastMessage(message, homep2p.getCoordinator());
             } catch (IOException e) {
+                System.out.println("invio della statistica locale al coordinatore fallito");
                 e.printStackTrace();
             }
         }
