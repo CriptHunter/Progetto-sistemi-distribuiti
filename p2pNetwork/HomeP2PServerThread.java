@@ -83,7 +83,7 @@ public class HomeP2PServerThread extends Thread {
                 }
             }
             //se sta ricevendo una statistica la aggiunge alla sua hashmap
-            else if (genericMessage.getHeader() == Header.LOCAL_STAT || genericMessage.getHeader() == Header.GLOBAL_STAT)
+            else if (genericMessage.getHeader() == Header.LOCAL_STAT || genericMessage.getHeader() == Header.GLOBAL_STAT || genericMessage.getHeader() == Header.LOCAL_STAT_COORD)
             {
                 Type typeToken = new TypeToken<Message<Statistics>>() {}.getType();
                 Message m = gson.fromJson(clientMessage, typeToken);
@@ -99,8 +99,12 @@ public class HomeP2PServerThread extends Thread {
                         e.printStackTrace();
                     }
                 }
+                //quando riceve una nuova statistica globale dal coordinatore
                 else if (genericMessage.getHeader() == Header.GLOBAL_STAT && homep2p.getStatus() != Status.EXITING)
-                    System.out.println("Statistica globale ricevuta: " + s.getValue() + " | " + s.getTimestamp());
+                    System.out.println("Statistica globale ricevuta: " + s);
+                //quando riceve una nuova statistica locale dal coordinatore
+                else if (genericMessage.getHeader() == Header.LOCAL_STAT_COORD && homep2p.getStatus() != Status.EXITING)
+                    System.out.println("Statistica locale ricevuta: " + s);
             }
             connectionSocket.close();
         } catch (IOException e) {

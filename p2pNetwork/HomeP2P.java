@@ -237,6 +237,7 @@ public class HomeP2P {
     }
 
     public void unicastMessage(Message m, Home h) throws IOException {
+        m.setTimestamp(makeTimestamp());
         HomeP2PClient client = new HomeP2PClient(h.getPort(), m);
         client.start();
     }

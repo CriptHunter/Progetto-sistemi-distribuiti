@@ -6,6 +6,7 @@ public enum Header {
     NET_EXIT,         //annuncio uscita dalla rete
     NET_EXIT_ACK,     //messaggio net_exit ricevuto
     LOCAL_STAT,       //nuova statistica locale
+    LOCAL_STAT_COORD,  //statistica locale inviata dal coordinatore
     GLOBAL_STAT,      //nuova statistica globale
     BOOST_REQUEST,    //richiesta di boost
     BOOST_OK          //consenso sul boost

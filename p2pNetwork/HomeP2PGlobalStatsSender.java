@@ -19,13 +19,22 @@ public class HomeP2PGlobalStatsSender extends Thread {
     }
 
     public void run() {
-        Message m = new Message<Statistics>(Header.GLOBAL_STAT, homep2p.makeTimestamp(), globalStat);
+        //invio la statistica globale alle altre case
+        Message globalStatMessage = new Message<Statistics>(Header.GLOBAL_STAT, homep2p.makeTimestamp(), globalStat);
         try {
-            homep2p.broadCastMessage(m);
+            homep2p.broadCastMessage(globalStatMessage);
         } catch (IOException e) {
             System.out.println("problemi nell'invio broadcast delle statistiche globali");
         }
-
+        //invio le statistiche locali alle altre case
+        for(int homeId : localStats.keySet()) {
+            try {
+                Message localStatMessage = new Message<Statistics>(Header.LOCAL_STAT_COORD, homep2p.makeTimestamp(), localStats.get(homeId));
+                homep2p.broadCastMessage(localStatMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         //invia statistiche globali e locali al server
         homep2p.sendGlobalStatToServer(globalStat);
         //invia statistiche locali al server
