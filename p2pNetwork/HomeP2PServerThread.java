@@ -101,10 +101,12 @@ public class HomeP2PServerThread extends Thread {
                 }
                 //quando riceve una nuova statistica globale dal coordinatore
                 else if (genericMessage.getHeader() == Header.GLOBAL_STAT && homep2p.getStatus() != Status.EXITING)
-                    System.out.println("Statistica globale ricevuta: " + s);
+                    //System.out.println("Statistica globale ricevuta: " + s);
+                    return;
                 //quando riceve una nuova statistica locale dal coordinatore
                 else if (genericMessage.getHeader() == Header.LOCAL_STAT_COORD && homep2p.getStatus() != Status.EXITING)
-                    System.out.println("Statistica locale ricevuta: " + s);
+                    //System.out.println("Statistica locale ricevuta: " + s);
+                    return;
             }
             connectionSocket.close();
         } catch (IOException e) {

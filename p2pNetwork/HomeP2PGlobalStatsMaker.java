@@ -1,11 +1,6 @@
 package p2pNetwork;
 
-import Messages.Header;
-import Messages.Message;
-import beans.Home;
 import beans.Statistics;
-
-import java.io.IOException;
 import java.util.HashMap;
 
 public class HomeP2PGlobalStatsMaker extends Thread {

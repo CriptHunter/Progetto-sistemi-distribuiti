@@ -12,7 +12,6 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 import beans.Home;
 import server.ConsoleColors;
-
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -34,8 +33,11 @@ public class HomeP2P {
     //mappa delle ultime statistiche globali di ogni casa
     HashMap<Integer, Statistics> homesLocalStats = new HashMap<>();
     private static HomeP2P instance = null;
+    //rappresenta questa casa
     private Home thisHome;
+    //se la casa sta uscendo dalla rete o no
     private Status status;
+    private Home coordinator = null;
 
     private HomeP2P() {
 
@@ -50,7 +52,6 @@ public class HomeP2P {
         this.serverURL = serverURL;
         homesListExitAck = new ArrayList<>();
         homesLocalStats = new HashMap<>();
-        //homesLocalStats.put(id, null);
         SetupServerConnection();
     }
 
@@ -69,7 +70,6 @@ public class HomeP2P {
     }
 
     //ritorna true se la registrazione sul server va a buon fine
-    //riempe la lista di case
     public boolean SignOnServer()
     {
         thisHome = new Home();
@@ -98,6 +98,7 @@ public class HomeP2P {
         return true;
     }
 
+    //la casa comunica al server che è uscita dalla rete
     public boolean SignOutFromServer()
     {
         WebResource webResource = client.resource(serverURL + "home/remove/" + thisHome.getId());
@@ -108,6 +109,7 @@ public class HomeP2P {
             return false;
     }
 
+    //comunica alle altre case l'uscita dalla rete
     public void leaveNetwork() throws IOException {
         System.out.println("provo ad uscire dalla rete");
         setStatus(Status.EXITING);
@@ -159,9 +161,11 @@ public class HomeP2P {
         this.status = s;
     }
 
-    public synchronized boolean addHome(Home h) {
+    public synchronized void addHome(Home h) {
         homesLocalStats.put(h.getId(), null);
-        return homesList.add(h);
+        //possibile cambio di coordinatore
+        homesList.add(h);
+        setCoordinator();
     }
 
     public synchronized void removeHome(Home h) {
@@ -175,6 +179,8 @@ public class HomeP2P {
                 itr.remove();
             }
         }
+        //possibile cambio di coordinatore
+        setCoordinator();
     }
 
     public synchronized List<Home> getHomesList() {
@@ -242,33 +248,32 @@ public class HomeP2P {
         client.start();
     }
 
-    /*public long makeTimestamp() {
-        LocalTime now = LocalTime.now(ZoneId.systemDefault());
-        return now.toSecondOfDay();
-    }*/
-
     //ritorna i secondi passati dal 1970
     public long makeTimestamp() {
         return java.time.Instant.now().getEpochSecond();
 
     }
 
-    public boolean isCoordinator()
-    {
-        for(Home h : getHomesList())
-            if(h.getId() > getThisHome().getId()) {
-                return false;
-            }
-        return true;
+    //ritorna true se la casa è coordinatore
+    public boolean isCoordinator() {
+        if(this.coordinator.equals(thisHome))
+            return true;
+        else
+            return false;
     }
 
-        public Home getCoordinator() {
-        Home coordinator = thisHome;
+    //la casa cerca chi è il nuovo coordinatore
+    public void setCoordinator() {
+        Home tempCoord = thisHome;
         for(Home h : getHomesList())
-            if(h.getId() > coordinator.getId()) {
-                coordinator = h;
+            if(h.getId() > tempCoord.getId()) {
+                tempCoord = h;
             }
-        return coordinator;
+        this.coordinator = tempCoord;
+    }
+
+    public Home getCoordinator() {
+        return this.coordinator;
     }
 
     //////////////////////////////////////////RICART AGRAWALA///////////////////////////////////////////////////////
@@ -311,7 +316,6 @@ public class HomeP2P {
                 broadCastMessage(m);
             }
             else {
-                System.out.println("ci sono due o meno case nella rete");
                 new HomeP2PBoostStarter().start();
             }
         }
