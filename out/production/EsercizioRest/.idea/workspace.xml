@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6692560-0b5d-4330-a8d0-384142cc3c13" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/out/production/EsercizioRest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EsercizioRest/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2P$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2P$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2P.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2P.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2PGlobalStatsMaker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2PGlobalStatsMaker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2PMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2PMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2PServerThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/EsercizioRest/p2pNetwork/HomeP2PServerThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pNetwork/HomeP2P.java" beforeDir="false" afterPath="$PROJECT_DIR$/p2pNetwork/HomeP2P.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pNetwork/HomeP2PBoostStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/p2pNetwork/HomeP2PBoostStarter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pNetwork/HomeP2PMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/p2pNetwork/HomeP2PMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pNetwork/HomeP2PServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/p2pNetwork/HomeP2PServerThread.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2P.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-203">
-              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state relative-caret-position="3740">
+              <caret line="249" selection-start-line="249" selection-end-line="249" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -44,23 +34,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/p2pNetwork/SmartMeterBuffer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="38" column="14" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
+            <state relative-caret-position="409">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/simulationSrc/Simulator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="37" column="10" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
-              <folding>
-                <element signature="e#558#559#0" expanded="true" />
-                <element signature="e#594#595#0" expanded="true" />
+                <element signature="e#572#573#0" expanded="true" />
+                <element signature="e#626#627#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -69,25 +48,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
+            <state relative-caret-position="490">
               <caret line="71" column="18" selection-start-line="71" selection-start-column="18" selection-end-line="71" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/simulationSrc/SmartMeterSimulator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="54" column="8" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
-              <folding>
-                <element signature="e#273#274#0" expanded="true" />
-                <element signature="e#314#315#0" expanded="true" />
-                <element signature="e#363#364#0" expanded="true" />
-                <element signature="e#416#417#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -106,10 +70,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server/AdminCMD.java">
+        <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="48" column="14" selection-start-line="48" selection-start-column="14" selection-end-line="48" selection-end-column="14" />
+            <state relative-caret-position="102">
+              <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -120,8 +84,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PServerThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="93" column="48" lean-forward="true" selection-start-line="93" selection-start-column="48" selection-end-line="93" selection-end-column="48" />
+            <state relative-caret-position="544">
+              <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -132,7 +96,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsSender.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
+            <state relative-caret-position="476">
               <caret line="33" column="14" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -144,11 +108,35 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PBoostStarter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
+            <state relative-caret-position="272">
               <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
               <folding>
                 <element signature="e#164#165#0" expanded="true" />
                 <element signature="e#211#212#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="595">
+              <caret line="40" column="64" selection-start-line="40" selection-start-column="64" selection-end-line="40" selection-end-column="64" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsMaker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="66" column="99" selection-start-line="66" selection-start-column="99" selection-end-line="66" selection-end-column="99" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -230,16 +218,16 @@
         <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PBoostSynch.java" />
         <option value="$PROJECT_DIR$/simulationSrc/SmartMeterSimulator.java" />
         <option value="$PROJECT_DIR$/p2pNetwork/SmartMeterBuffer.java" />
-        <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PServer.java" />
         <option value="$PROJECT_DIR$/server/ApartmentBlock.java" />
         <option value="$PROJECT_DIR$/Messages/Header.java" />
         <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsSender.java" />
         <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PServerThread.java" />
-        <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsMaker.java" />
         <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PBoostStarter.java" />
-        <option value="$PROJECT_DIR$/p2pNetwork/HomeP2P.java" />
         <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PPrinter.java" />
         <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PMain.java" />
+        <option value="$PROJECT_DIR$/p2pNetwork/HomeP2P.java" />
+        <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PServer.java" />
+        <option value="$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsMaker.java" />
       </list>
     </option>
   </component>
@@ -269,6 +257,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -309,8 +299,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -353,7 +341,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.StartServer">
+  <component name="RunManager" selected="Application.AdminCMD">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -521,11 +509,13 @@
       <workItem from="1561469315820" duration="1062000" />
       <workItem from="1561703112284" duration="5195000" />
       <workItem from="1561986683286" duration="3722000" />
+      <workItem from="1562137257118" duration="1223000" />
+      <workItem from="1562152619483" duration="244000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="266508000" />
+    <option name="totallyTimeSpent" value="267975000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -538,8 +528,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47765362" visible="true" weight="0.19433199" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47765362" visible="true" weight="0.20080972" />
       <window_info id="Structure" order="1" sideWeight="0.5223464" side_tool="true" weight="0.2145749" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -643,13 +634,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/p2pNetwork/Status.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="79" selection-start-line="4" selection-start-column="79" selection-end-line="4" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Messages/Message.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -662,16 +646,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
           <caret line="86" column="8" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="21" column="54" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -706,16 +680,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="40" column="64" selection-start-line="40" selection-start-column="64" selection-end-line="40" selection-end-column="64" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/beans/Home.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-187">
@@ -723,39 +687,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsMaker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/AdminCMD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="48" column="14" selection-start-line="48" selection-start-column="14" selection-end-line="48" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/p2pNetwork/SmartMeterBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="38" column="14" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/simulationSrc/Simulator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
+        <state relative-caret-position="544">
           <caret line="37" column="10" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
           <folding>
             <element signature="e#558#559#0" expanded="true" />
@@ -764,21 +698,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PBoostStarter.java">
+    <entry file="file://$PROJECT_DIR$/simulationSrc/SmartMeterSimulator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+        <state relative-caret-position="850">
+          <caret line="54" column="8" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
           <folding>
-            <element signature="e#164#165#0" expanded="true" />
-            <element signature="e#211#212#0" expanded="true" />
+            <element signature="e#273#274#0" expanded="true" />
+            <element signature="e#314#315#0" expanded="true" />
+            <element signature="e#363#364#0" expanded="true" />
+            <element signature="e#416#417#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsSender.java">
+    <entry file="file://$PROJECT_DIR$/server/AdminCMD.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="33" column="14" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+        <state relative-caret-position="595">
+          <caret line="48" column="14" selection-start-line="48" selection-start-column="14" selection-end-line="48" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/p2pNetwork/Status.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="79" selection-start-line="4" selection-start-column="79" selection-end-line="4" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2P.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3740">
+          <caret line="249" selection-start-line="249" selection-end-line="249" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -787,10 +750,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PServerThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="93" column="48" lean-forward="true" selection-start-line="93" selection-start-column="48" selection-end-line="93" selection-end-column="48" />
+        <state relative-caret-position="544">
+          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsSender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="33" column="14" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PBoostStarter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+          <folding>
+            <element signature="e#164#165#0" expanded="true" />
+            <element signature="e#211#212#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="40" column="64" selection-start-line="40" selection-start-column="64" selection-end-line="40" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/p2pNetwork/SmartMeterBuffer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#572#573#0" expanded="true" />
+            <element signature="e#626#627#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -807,7 +813,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
+        <state relative-caret-position="490">
           <caret line="71" column="18" selection-start-line="71" selection-start-column="18" selection-end-line="71" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -815,23 +821,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/simulationSrc/SmartMeterSimulator.java">
+    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2PGlobalStatsMaker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="54" column="8" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
-          <folding>
-            <element signature="e#273#274#0" expanded="true" />
-            <element signature="e#314#315#0" expanded="true" />
-            <element signature="e#363#364#0" expanded="true" />
-            <element signature="e#416#417#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/p2pNetwork/HomeP2P.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-203">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state relative-caret-position="340">
+          <caret line="66" column="99" selection-start-line="66" selection-start-column="99" selection-end-line="66" selection-end-column="99" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

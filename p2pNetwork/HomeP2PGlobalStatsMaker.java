@@ -64,6 +64,11 @@ public class HomeP2PGlobalStatsMaker extends Thread {
                     new HomeP2PGlobalStatsSender(globalStat, new HashMap<>(homesStat)).start();
                 }
             }
+            else //se non è più il coordinatore svuota le vecchie statistiche che non userà mai più
+            {
+                System.out.println("non sono più il coordinatore, svuoto le statistiche");
+                homep2p.flushLocalStats();
+            }
         }
     }
 }
